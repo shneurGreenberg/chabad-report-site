@@ -21,9 +21,7 @@
 
     * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -33,6 +31,10 @@
         var(--paper);
       font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
       line-height: 1.78;
+    }
+
+    html[dir="ltr"] body {
+      font-family: Arial, "Segoe UI", sans-serif;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -53,7 +55,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 22px;
+      gap: 16px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      min-width: 0;
     }
 
     .brand {
@@ -90,6 +101,50 @@
       color: var(--blue);
     }
 
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .action-btn {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+      white-space: nowrap;
+    }
+
+    .action-btn:hover {
+      border-color: rgba(30, 91, 143, .35);
+      color: var(--blue);
+      background: rgba(30, 91, 143, .05);
+    }
+
+    .action-btn-primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+    }
+
+    .action-btn-primary:hover {
+      background: #184a75;
+      border-color: #184a75;
+      color: white;
+    }
+
+    .action-btn:disabled {
+      opacity: .65;
+      cursor: wait;
+    }
+
     .hero {
       min-height: calc(100vh - 66px);
       display: grid;
@@ -118,6 +173,12 @@
         linear-gradient(0deg, rgba(5, 23, 37, .72), rgba(5, 23, 37, 0) 42%);
     }
 
+    html[dir="ltr"] .hero::after {
+      background:
+        linear-gradient(270deg, rgba(5, 23, 37, .82), rgba(5, 23, 37, .35) 50%, rgba(5, 23, 37, .12)),
+        linear-gradient(0deg, rgba(5, 23, 37, .72), rgba(5, 23, 37, 0) 42%);
+    }
+
     .hero-inner {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
@@ -141,6 +202,7 @@
       height: 3px;
       border-radius: 3px;
       background: #ffe4a8;
+      flex-shrink: 0;
     }
 
     h1 {
@@ -196,9 +258,7 @@
       box-shadow: var(--shadow);
     }
 
-    .intro-copy {
-      padding: 30px;
-    }
+    .intro-copy { padding: 30px; }
 
     .summary-panel {
       padding: 24px;
@@ -222,13 +282,9 @@
       font-size: clamp(1.28rem, 2vw, 1.85rem);
     }
 
-    p {
-      margin: 0 0 14px;
-    }
+    p { margin: 0 0 14px; }
 
-    .muted {
-      color: var(--muted);
-    }
+    .muted { color: var(--muted); }
 
     .stats {
       display: grid;
@@ -237,11 +293,15 @@
     }
 
     .stat {
-      border-right: 4px solid var(--gold);
+      border-inline-end: 4px solid var(--gold);
       padding: 9px 13px;
       background: #fff8e9;
       border-radius: 6px 0 0 6px;
       font-weight: 800;
+    }
+
+    html[dir="ltr"] .stat {
+      border-radius: 0 6px 6px 0;
     }
 
     .report-section {
@@ -253,13 +313,9 @@
       border-top: 1px solid var(--line);
     }
 
-    .report-section:nth-of-type(even) .section-copy {
-      order: 2;
-    }
+    .report-section:nth-of-type(even) .section-copy { order: 2; }
 
-    .section-copy {
-      min-width: 0;
-    }
+    .section-copy { min-width: 0; }
 
     .kicker {
       display: inline-flex;
@@ -274,9 +330,11 @@
       padding: 0 22px 0 0;
     }
 
-    .section-copy li {
-      margin-bottom: 8px;
+    html[dir="ltr"] .section-copy ul {
+      padding: 0 0 0 22px;
     }
+
+    .section-copy li { margin-bottom: 8px; }
 
     .slider {
       position: relative;
@@ -315,7 +373,7 @@
 
     .caption {
       position: absolute;
-      right: 18px;
+      inset-inline-end: 18px;
       bottom: 16px;
       z-index: 2;
       max-width: calc(100% - 36px);
@@ -326,7 +384,7 @@
 
     .dots {
       position: absolute;
-      left: 16px;
+      inset-inline-start: 16px;
       bottom: 18px;
       z-index: 3;
       display: flex;
@@ -365,13 +423,8 @@
       box-shadow: var(--shadow);
     }
 
-    .closing-copy h2 {
-      color: white;
-    }
-
-    .closing-copy p {
-      color: rgba(255, 255, 255, .9);
-    }
+    .closing-copy h2 { color: white; }
+    .closing-copy p { color: rgba(255, 255, 255, .9); }
 
     footer {
       padding: 26px 16px 42px;
@@ -388,6 +441,12 @@
         gap: 8px;
       }
 
+      .topbar-right {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       nav {
         justify-content: flex-start;
         width: 100%;
@@ -396,8 +455,16 @@
         padding-bottom: 4px;
       }
 
-      nav a {
-        white-space: nowrap;
+      nav a { white-space: nowrap; }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+
+      .topbar-actions .action-btn {
+        flex: 1;
+        text-align: center;
       }
 
       .intro,
@@ -406,45 +473,22 @@
         grid-template-columns: 1fr;
       }
 
-      .report-section:nth-of-type(even) .section-copy {
-        order: 0;
-      }
+      .report-section:nth-of-type(even) .section-copy { order: 0; }
 
-      .summary-panel {
-        position: static;
-      }
+      .summary-panel { position: static; }
 
-      .slider {
-        min-height: 360px;
-      }
+      .slider { min-height: 360px; }
     }
 
     @media (max-width: 560px) {
-      .hero {
-        min-height: 720px;
-      }
-
-      .hero-inner {
-        padding-bottom: 42px;
-      }
-
+      .hero { min-height: 720px; }
+      .hero-inner { padding-bottom: 42px; }
       .intro-copy,
       .summary-panel,
-      .closing-copy {
-        padding: 22px;
-      }
-
-      .report-section {
-        padding: 32px 0;
-      }
-
-      .slider {
-        min-height: 315px;
-      }
-
-      .caption {
-        font-size: .95rem;
-      }
+      .closing-copy { padding: 22px; }
+      .report-section { padding: 32px 0; }
+      .slider { min-height: 315px; }
+      .caption { font-size: .95rem; }
     }
   </style>
 </head>
@@ -452,190 +496,583 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="#top">
-        בית חב"ד נובוסיבירסק
-        <small>דוח פעילות קהילתי</small>
+        <span data-i18n="brand.name">בית חב"ד נובוסיבירסק</span>
+        <small data-i18n="brand.subtitle">דוח פעילות קהילתי</small>
       </a>
-      <nav aria-label="ניווט">
-        <a href="#education">חינוך ונוער</a>
-        <a href="#adults">שיעורים למבוגרים</a>
-        <a href="#shabbat">שבתות וחגים</a>
-        <a href="#technology">חדשנות וטכנולוגיה</a>
-        <a href="#media">מדיה ופרסום</a>
-        <a href="#future">מבט לעתיד</a>
-      </nav>
+      <div class="topbar-right">
+        <nav id="main-nav" aria-label="ניווט">
+          <a href="#education" data-i18n="nav.education">חינוך ונוער</a>
+          <a href="#adults" data-i18n="nav.adults">שיעורים למבוגרים</a>
+          <a href="#shabbat" data-i18n="nav.shabbat">שבתות וחגים</a>
+          <a href="#technology" data-i18n="nav.technology">חדשנות וטכנולוגיה</a>
+          <a href="#media" data-i18n="nav.media">מדיה ופרסום</a>
+          <a href="#future" data-i18n="nav.future">מבט לעתיד</a>
+        </nav>
+        <div class="topbar-actions">
+          <button type="button" class="action-btn" id="lang-toggle" aria-label="שינוי שפה">Русский</button>
+          <button type="button" class="action-btn action-btn-primary" id="download-btn">
+            <span data-i18n="actions.download">הורדת דוח PDF</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
   <section class="hero" id="top">
     <div class="hero-inner">
-      <div class="eyebrow">מוגש על ידי שניאור וחסי גרינברג</div>
-      <h1>דוח פעילות בית חב"ד נובוסיבירסק</h1>
-      <p class="lead">סיכום תחומי האחריות, הפרויקטים והפעילות השוטפת בקהילה ובבית חב"ד, מתוך מטרה להעניק לכל יהודי תחושה של בית חם, חי ופעיל.</p>
-      <div class="hero-meta">
-        <span class="meta-pill">חינוך וקהילה</span>
-        <span class="meta-pill">שבתות וחגים</span>
-        <span class="meta-pill">חדשנות ותפעול</span>
-        <span class="meta-pill">מדיה וחיבור קהילתי</span>
-      </div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">מוגש על ידי שניאור וחסי גרינברג</div>
+      <h1 data-i18n="hero.title">דוח פעילות בית חב"ד נובוסיבירסק</h1>
+      <p class="lead" data-i18n="hero.lead">סיכום תחומי האחריות, הפרויקטים והפעילות השוטפת בקהילה ובבית חב"ד, מתוך מטרה להעניק לכל יהודי תחושה של בית חם, חי ופעיל.</p>
+      <div class="hero-meta" id="hero-pills"></div>
     </div>
   </section>
 
   <main>
     <section class="intro" aria-labelledby="intro-title">
       <div class="intro-copy">
-        <span class="kicker">פתח דבר</span>
-        <h2 id="intro-title">עשייה שמפתחת, משכללת ומרחיבה את הקהילה לערוצים וקהלים חדשים</h2>
-        <p>דוח זה מרכז את הפעילות הענפה המבוצעת על ידינו בבית חב"ד ובקהילה היהודית. המטרה המרכזית העומדת לנגד עינינו היא מתן מענה מלא, שוטף ומקצועי לכל צורכי הקהילה, לצד פיתוח ושכלול מתמיד של העשייה הקהילתית.</p>
-        <p>אנו פועלים להביא לעיר רוח צעירה וחדשה, תנופה נוספת בחיי היהדות, והרחבת מעגל ההשפעה — בפיתוח ערוצים חדשים, ביצירת תוכן וחוויות מותאמות, ובהגעה לקהלי יעד שלא נחשפו עד כה לפעילות בית חב"ד.</p>
-        <p>אנו רואים בעשייה זו רק את תחילת הדרך, ומתכננים להמשיך להרחיב ולהגדיל את היקף הפעילות הלאה והלאה. בהזדמנות זו אנו מבקשים להביע תודה עמוקה על העזרה הגדולה והתמיכה שניתנת לנו.</p>
+        <span class="kicker" data-i18n="intro.kicker">פתח דבר</span>
+        <h2 id="intro-title" data-i18n="intro.title">עשייה שמפתחת, משכללת ומרחיבה את הקהילה לערוצים וקהלים חדשים</h2>
+        <p data-i18n="intro.p1">דוח זה מרכז את הפעילות הענפה המבוצעת על ידינו בבית חב"ד ובקהילה היהודית. המטרה המרכזית העומדת לנגד עינינו היא מתן מענה מלא, שוטף ומקצועי לכל צורכי הקהילה, לצד פיתוח ושכלול מתמיד של העשייה הקהילתית.</p>
+        <p data-i18n="intro.p2">אנו פועלים להביא לעיר רוח צעירה וחדשה, תנופה נוספת בחיי היהדות, והרחבת מעגל ההשפעה — בפיתוח ערוצים חדשים, ביצירת תוכן וחוויות מותאמות, ובהגעה לקהלי יעד שלא נחשפו עד כה לפעילות בית חב"ד.</p>
+        <p data-i18n="intro.p3">אנו רואים בעשייה זו רק את תחילת הדרך, ומתכננים להמשיך להרחיב ולהגדיל את היקף הפעילות הלאה והלאה. בהזדמנות זו אנו מבקשים להביע תודה עמוקה על העזרה הגדולה והתמיכה שניתנת לנו.</p>
       </div>
       <aside class="summary-panel">
-        <h3>עיקרי הפעילות</h3>
-        <p class="muted">הדוח מציג תמונה רחבה של עשייה יומיומית לצד פרויקטים גדולים, חינוכיים, קהילתיים וטכנולוגיים.</p>
-        <div class="stats">
-          <div class="stat">חינוך, ילדים ונוער סביב מעגל השנה</div>
-          <div class="stat">שיעורי תורה ותרבות למבוגרים</div>
-          <div class="stat">אירוח, חגים ותפילות בבית הכנסת</div>
-          <div class="stat">מערכות דיגיטליות, עיצוב והפקה</div>
-        </div>
+        <h3 data-i18n="intro.summaryTitle">עיקרי הפעילות</h3>
+        <p class="muted" data-i18n="intro.summaryLead">הדוח מציג תמונה רחבה של עשייה יומיומית לצד פרויקטים גדולים, חינוכיים, קהילתיים וטכנולוגיים.</p>
+        <div class="stats" id="intro-stats"></div>
       </aside>
     </section>
 
     <section class="report-section" id="education">
       <div class="section-copy">
-        <span class="kicker">01 | חינוך, ילדים ונוער</span>
-        <h2>פעילות סביב מעגל השנה</h2>
-        <p>במסגרת החינוך מתקיימת הוראה שבועית קבועה לילדים בנושאי עברית, מסורת ויהדות, לצד תוכניות חינוכיות ואירועים סביב חגי ישראל וערכי היהדות.</p>
-        <ul>
-          <li>הפקת תוכניות חינוכיות ופעילויות חברתיות בבית הספר.</li>
-          <li>אירועי שיא משותפים לילדי בית הספר, ההורים והקהילה.</li>
-          <li>ניהול מקהלת הילדים, כולל כתיבה, הלחנה ויצירת שירים יהודיים.</li>
-          <li>תכנון, ניהול, הפעלה וגיוס מימון למחנה הקיץ לילדים.</li>
-          <li>הובלת תוכניות EnerJew לבני נוער.</li>
-        </ul>
+        <span class="kicker" data-i18n="sections.education.kicker">01 | חינוך, ילדים ונוער</span>
+        <h2 data-i18n="sections.education.title">פעילות סביב מעגל השנה</h2>
+        <p data-i18n="sections.education.lead">במסגרת החינוך מתקיימת הוראה שבועית קבועה לילדים בנושאי עברית, מסורת ויהדות, לצד תוכניות חינוכיות ואירועים סביב חגי ישראל וערכי היהדות.</p>
+        <ul id="education-items"></ul>
       </div>
-      <div class="slider" data-caption="חינוך, נוער וחוויות יהודיות" data-slides="assets/education-enerjew.jpg|assets/education-class.jpg|assets/education-hebrew.jpg|assets/education-child.jpg|assets/education-workshop.jpg"></div>
+      <div class="slider" data-caption-key="sections.education.caption" data-slides="assets/education-enerjew.jpg|assets/education-class.jpg|assets/education-hebrew.jpg|assets/education-child.jpg|assets/education-workshop.jpg"></div>
     </section>
 
     <section class="report-section" id="adults">
       <div class="section-copy">
-        <span class="kicker">02 | שיעורי תורה ותרבות</span>
-        <h2>פיתוח מרחב לימוד למבוגרים</h2>
-        <p>הפעילות למבוגרים כוללת שיעורים קבועים בעברית, לימוד אישי או קבוצתי, והעמקה מותאמת אישית בחסידות וביהדות. לצד הלימוד, נבנה מועדון לדוברי עברית המשלב מפגשים חברתיים ואוכל ישראלי.</p>
-        <ul>
-          <li>שיעורים שבועיים בעברית לחברי הקהילה.</li>
-          <li>לימוד אישי וקבוצתי בחסידות לפי רמת המשתתפים.</li>
-          <li>מפגשי דוברי עברית עם אווירה ישראלית מחברת.</li>
-          <li>הרצאות ופעילות לבני נח במסגרת ליל סיור המוזיאונים.</li>
-        </ul>
+        <span class="kicker" data-i18n="sections.adults.kicker">02 | שיעורי תורה ותרבות</span>
+        <h2 data-i18n="sections.adults.title">פיתוח מרחב לימוד למבוגרים</h2>
+        <p data-i18n="sections.adults.lead">הפעילות למבוגרים כוללת שיעורים קבועים בעברית, לימוד אישי או קבוצתי, והעמקה מותאמת אישית בחסידות וביהדות. לצד הלימוד, נבנה מועדון לדוברי עברית המשלב מפגשים חברתיים ואוכל ישראלי.</p>
+        <ul id="adults-items"></ul>
       </div>
-      <div class="slider" data-caption="לימוד, מפגש וחיבור בין חברי הקהילה" data-slides="assets/adults-roundtable.jpg|assets/adults-gathering.jpg|assets/adults-meal.jpg|assets/adults-lecture.jpg|assets/adults-community.jpg"></div>
+      <div class="slider" data-caption-key="sections.adults.caption" data-slides="assets/adults-roundtable.jpg|assets/adults-gathering.jpg|assets/adults-meal.jpg|assets/adults-lecture.jpg|assets/adults-community.jpg"></div>
     </section>
 
     <section class="report-section" id="shabbat">
       <div class="section-copy">
-        <span class="kicker">03 | שבתות, חגים ומעגל החיים</span>
-        <h2>בית הכנסת כמרכז חי של הקהילה</h2>
-        <p>במהלך ימות החול, השבתות והחגים ניתנת עזרה שוטפת בניהול התפילות, קריאת התורה, הנחת תפילין למקורבים, ואירוח משפחות לסעודות שבת.</p>
-        <ul>
-          <li>סיוע מלא בתפילות, קריאת התורה ופעילות בית הכנסת.</li>
-          <li>מבצעי חגים: מצות בפסח, קריאת מגילה בפורים, תשרי, חנוכה וכל מעגל השנה.</li>
-          <li>הכנות ואירוח סעודות שבת, כולל סידור פיזי והכנסת תוכן חברתי לצעירים.</li>
-          <li>חיזוק הקשר המשפחתי והקהילתי דרך אירועים משולבים.</li>
-        </ul>
+        <span class="kicker" data-i18n="sections.shabbat.kicker">03 | שבתות, חגים ומעגל החיים</span>
+        <h2 data-i18n="sections.shabbat.title">בית הכנסת כמרכז חי של הקהילה</h2>
+        <p data-i18n="sections.shabbat.lead">במהלך ימות החול, השבתות והחגים ניתנת עזרה שוטפת בניהול התפילות, קריאת התורה, הנחת תפילין למקורבים, ואירוח משפחות לסעודות שבת.</p>
+        <ul id="shabbat-items"></ul>
       </div>
-      <div class="slider" data-caption="תפילה, אירוח וחגים בקהילה" data-slides="assets/shabbat-tefillin.jpg|assets/shabbat-prayer.jpg|assets/shabbat-hospitality.jpg|assets/shabbat-event.jpg|assets/holidays-matzah.jpg"></div>
+      <div class="slider" data-caption-key="sections.shabbat.caption" data-slides="assets/shabbat-tefillin.jpg|assets/shabbat-prayer.jpg|assets/shabbat-hospitality.jpg|assets/shabbat-event.jpg|assets/holidays-matzah.jpg"></div>
     </section>
 
     <section class="report-section" id="technology">
       <div class="section-copy">
-        <span class="kicker">04 | שדרוג, חדשנות וטכנולוגיה</span>
-        <h2>ייעול הפעילות והנגשת התוכן</h2>
-        <p>הפעילות כוללת הטמעת אמצעים טכנולוגיים לייעול העבודה הטכנית והלוגיסטית בבית הכנסת, לצד פרויקטים ייעודיים שמעשירים את חוויית המבקרים וחברי הקהילה.</p>
-        <ul>
-          <li>פיתוח פלטפורמת סיור קהילתית אינטראקטיבית מבוססת תגי NTAG215.</li>
-          <li>הקמת מסך דיגיטלי ייעודי להנצחת נפטרים.</li>
-          <li>הדפסת לייזר על עץ לתפילות, ברכות, קדיש, אשכבות ותפילות לחולים.</li>
-          <li>הפקת חוברות פסוקים שהקהילה אומרת עם הילדים בכל שבת.</li>
-          <li>סיוע בבקשות מימון, תרגום מכתבים ועזרה בהקמת עמותה להעברת כספים.</li>
-          <li>קניית רובוט שוטף כדי שבית הכנסת ייראה מכובד בכל יום.</li>
-        </ul>
+        <span class="kicker" data-i18n="sections.technology.kicker">04 | שדרוג, חדשנות וטכנולוגיה</span>
+        <h2 data-i18n="sections.technology.title">ייעול הפעילות והנגשת התוכן</h2>
+        <p data-i18n="sections.technology.lead">הפעילות כוללת הטמעת אמצעים טכנולוגיים לייעול העבודה הטכנית והלוגיסטית בבית הכנסת, לצד פרויקטים ייעודיים שמעשירים את חוויית המבקרים וחברי הקהילה.</p>
+        <ul id="technology-items"></ul>
       </div>
-      <div class="slider" data-caption="פרויקטים דיגיטליים, עיצוב והפקה" data-slides="assets/tech-memory.jpg|assets/tech-plaque.jpg|assets/tech-screen.jpg|assets/tech-yizkor.jpg|assets/tech-laser.jpg|assets/tech-prayer.jpg|assets/tech-robot.jpg|assets/tech-booklets.jpg"></div>
+      <div class="slider" data-caption-key="sections.technology.caption" data-slides="assets/tech-memory.jpg|assets/tech-plaque.jpg|assets/tech-screen.jpg|assets/tech-yizkor.jpg|assets/tech-laser.jpg|assets/tech-prayer.jpg|assets/tech-robot.jpg|assets/tech-booklets.jpg"></div>
     </section>
 
     <section class="report-section" id="media">
       <div class="section-copy">
-        <span class="kicker">05 | מדיה, שיווק ופרסום</span>
-        <h2>תוכן שמספר את הסיפור הקהילתי</h2>
-        <p>המדיה משמשת כלי מרכזי לחיבור חברי הקהילה לפעילות, להגדלת החשיפה, ולתיעוד העשייה בבית חב"ד, בבית הספר ובאירועים השונים.</p>
-        <ul>
-          <li>דברור ופרסום פעילויות בית חב"ד, בית הספר והאירועים ברשתות החברתיות.</li>
-          <li>תכנון, צילום, עריכה והפקת סרטונים שיווקיים וחווייתיים.</li>
-          <li>יצירת נראות מקצועית שמחזקת את תחושת השייכות והאמון.</li>
-        </ul>
+        <span class="kicker" data-i18n="sections.media.kicker">05 | מדיה, שיווק ופרסום</span>
+        <h2 data-i18n="sections.media.title">תוכן שמספר את הסיפור הקהילתי</h2>
+        <p data-i18n="sections.media.lead">המדיה משמשת כלי מרכזי לחיבור חברי הקהילה לפעילות, להגדלת החשיפה, ולתיעוד העשייה בבית חב"ד, בבית הספר ובאירועים השונים.</p>
+        <ul id="media-items"></ul>
       </div>
-      <div class="slider" data-caption="צילום, הפקה ונראות קהילתית" data-slides="assets/media-video.jpg|assets/media-filming.jpg|assets/media-home.jpg|assets/media-post.jpg"></div>
+      <div class="slider" data-caption-key="sections.media.caption" data-slides="assets/media-video.jpg|assets/media-filming.jpg|assets/media-home.jpg|assets/media-post.jpg"></div>
     </section>
 
     <section class="closing" id="future">
       <div class="closing-copy">
-        <span class="kicker" style="color:#ffe4a8">סיכום ומבט לעתיד</span>
-        <h2>עוגן יציב וחם לכל יהודי בנובוסיבירסק</h2>
-        <p>כלל הפעולות הללו, החל מהאירוח הביתי, דרך החינוך וההוראה ועד לשדרוגים הטכנולוגיים והלוגיסטיים, נעשים מתוך מטרה אחת: להוות עוגן איתן ותמידי לכל עניין בקהילה ולמלא את רצון המשלח לתת לכל יהודי הרגשה של בית חם ולקרב אותו לקב"ה.</p>
-        <p>אנו נחושים להמשיך להשקיע את מלוא המרץ כדי להצעיד את המוסדות קדימה, לפתח פרויקטים חדשים ולהעמיק את השפעת בית חב"ד על חברי הקהילה בפרט וכל יהודי נובוסיבירסק בכלל, עד ביאת משיח צדקנו בקרוב ממש.</p>
+        <span class="kicker" style="color:#ffe4a8" data-i18n="sections.closing.kicker">סיכום ומבט לעתיד</span>
+        <h2 data-i18n="sections.closing.title">עוגן יציב וחם לכל יהודי בנובוסיבירסק</h2>
+        <p data-i18n="sections.closing.p1">כלל הפעולות הללו, החל מהאירוח הביתי, דרך החינוך וההוראה ועד לשדרוגים הטכנולוגיים והלוגיסטיים, נעשים מתוך מטרה אחת: להוות עוגן איתן ותמידי לכל עניין בקהילה ולמלא את רצון המשלח לתת לכל יהודי הרגשה של בית חם ולקרב אותו לקב"ה.</p>
+        <p data-i18n="sections.closing.p2">אנו נחושים להמשיך להשקיע את מלוא המרץ כדי להצעיד את המוסדות קדימה, לפתח פרויקטים חדשים ולהעמיק את השפעת בית חב"ד על חברי הקהילה בפרט וכל יהודי נובוסיבירסק בכלל, עד ביאת משיח צדקנו בקרוב ממש.</p>
       </div>
-      <div class="slider" data-caption="קהילה עם פנים קדימה" data-slides="assets/future-community.jpg|assets/future-group.jpg|assets/hero-family.jpg"></div>
+      <div class="slider" data-caption-key="sections.closing.caption" data-slides="assets/future-community.jpg|assets/future-group.jpg|assets/hero-family.jpg"></div>
     </section>
   </main>
 
-  <footer>
-    דוח פעילות בית חב"ד נובוסיבירסק | שניאור וחסי גרינברג
-  </footer>
+  <footer data-i18n="footer">דוח פעילות בית חב"ד נובוסיבירסק | שניאור וחסי גרינברג</footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const sliders = document.querySelectorAll(".slider");
-    const intervalMs = 2600;
+    const i18n = {
+      he: {
+        lang: "he",
+        dir: "rtl",
+        otherLangLabel: "Русский",
+        langToggleAria: "שינוי שפה לרוסית",
+        pdfFilename: "doh-peilut-chabad-novosibirsk.pdf",
+        meta: {
+          title: "דוח פעילות | בית חב\"ד נובוסיבירסק",
+          description: "דוח פעילות מפורט של העשייה בבית חב״ד נובוסיבירסק ובקהילה היהודית."
+        },
+        brand: {
+          name: "בית חב\"ד נובוסיבירסק",
+          subtitle: "דוח פעילות קהילתי"
+        },
+        nav: {
+          label: "ניווט",
+          education: "חינוך ונוער",
+          adults: "שיעורים למבוגרים",
+          shabbat: "שבתות וחגים",
+          technology: "חדשנות וטכנולוגיה",
+          media: "מדיה ופרסום",
+          future: "מבט לעתיד"
+        },
+        actions: {
+          download: "הורדת דוח PDF",
+          downloading: "מכין קובץ..."
+        },
+        hero: {
+          eyebrow: "מוגש על ידי שניאור וחסי גרינברג",
+          title: "דוח פעילות בית חב\"ד נובוסיבירסק",
+          lead: "סיכום תחומי האחריות, הפרויקטים והפעילות השוטפת בקהילה ובבית חב\"ד, מתוך מטרה להעניק לכל יהודי תחושה של בית חם, חי ופעיל.",
+          pills: ["חינוך וקהילה", "שבתות וחגים", "חדשנות ותפעול", "מדיה וחיבור קהילתי"]
+        },
+        intro: {
+          kicker: "פתח דבר",
+          title: "עשייה שמפתחת, משכללת ומרחיבה את הקהילה לערוצים וקהלים חדשים",
+          p1: "דוח זה מרכז את הפעילות הענפה המבוצעת על ידינו בבית חב\"ד ובקהילה היהודית. המטרה המרכזית העומדת לנגד עינינו היא מתן מענה מלא, שוטף ומקצועי לכל צורכי הקהילה, לצד פיתוח ושכלול מתמיד של העשייה הקהילתית.",
+          p2: "אנו פועלים להביא לעיר רוח צעירה וחדשה, תנופה נוספת בחיי היהדות, והרחבת מעגל ההשפעה — בפיתוח ערוצים חדשים, ביצירת תוכן וחוויות מותאמות, ובהגעה לקהלי יעד שלא נחשפו עד כה לפעילות בית חב\"ד.",
+          p3: "אנו רואים בעשייה זו רק את תחילת הדרך, ומתכננים להמשיך להרחיב ולהגדיל את היקף הפעילות הלאה והלאה. בהזדמנות זו אנו מבקשים להביע תודה עמוקה על העזרה הגדולה והתמיכה שניתנת לנו.",
+          summaryTitle: "עיקרי הפעילות",
+          summaryLead: "הדוח מציג תמונה רחבה של עשייה יומיומית לצד פרויקטים גדולים, חינוכיים, קהילתיים וטכנולוגיים.",
+          stats: [
+            "חינוך, ילדים ונוער סביב מעגל השנה",
+            "שיעורי תורה ותרבות למבוגרים",
+            "אירוח, חגים ותפילות בבית הכנסת",
+            "מערכות דיגיטליות, עיצוב והפקה"
+          ]
+        },
+        sections: {
+          education: {
+            kicker: "01 | חינוך, ילדים ונוער",
+            title: "פעילות סביב מעגל השנה",
+            lead: "במסגרת החינוך מתקיימת הוראה שבועית קבועה לילדים בנושאי עברית, מסורת ויהדות, לצד תוכניות חינוכיות ואירועים סביב חגי ישראל וערכי היהדות.",
+            items: [
+              "הפקת תוכניות חינוכיות ופעילויות חברתיות בבית הספר.",
+              "אירועי שיא משותפים לילדי בית הספר, ההורים והקהילה.",
+              "ניהול מקהלת הילדים, כולל כתיבה, הלחנה ויצירת שירים יהודיים.",
+              "תכנון, ניהול, הפעלה וגיוס מימון למחנה הקיץ לילדים.",
+              "הובלת תוכניות EnerJew לבני נוער."
+            ],
+            caption: "חינוך, נוער וחוויות יהודיות"
+          },
+          adults: {
+            kicker: "02 | שיעורי תורה ותרבות",
+            title: "פיתוח מרחב לימוד למבוגרים",
+            lead: "הפעילות למבוגרים כוללת שיעורים קבועים בעברית, לימוד אישי או קבוצתי, והעמקה מותאמת אישית בחסידות וביהדות. לצד הלימוד, נבנה מועדון לדוברי עברית המשלב מפגשים חברתיים ואוכל ישראלי.",
+            items: [
+              "שיעורים שבועיים בעברית לחברי הקהילה.",
+              "לימוד אישי וקבוצתי בחסידות לפי רמת המשתתפים.",
+              "מפגשי דוברי עברית עם אווירה ישראלית מחברת.",
+              "הרצאות ופעילות לבני נח במסגרת ליל סיור המוזיאונים."
+            ],
+            caption: "לימוד, מפגש וחיבור בין חברי הקהילה"
+          },
+          shabbat: {
+            kicker: "03 | שבתות, חגים ומעגל החיים",
+            title: "בית הכנסת כמרכז חי של הקהילה",
+            lead: "במהלך ימות החול, השבתות והחגים ניתנת עזרה שוטפת בניהול התפילות, קריאת התורה, הנחת תפילין למקורבים, ואירוח משפחות לסעודות שבת.",
+            items: [
+              "סיוע מלא בתפילות, קריאת התורה ופעילות בית הכנסת.",
+              "מבצעי חגים: מצות בפסח, קריאת מגילה בפורים, תשרי, חנוכה וכל מעגל השנה.",
+              "הכנות ואירוח סעודות שבת, כולל סידור פיזי והכנסת תוכן חברתי לצעירים.",
+              "חיזוק הקשר המשפחתי והקהילתי דרך אירועים משולבים."
+            ],
+            caption: "תפילה, אירוח וחגים בקהילה"
+          },
+          technology: {
+            kicker: "04 | שדרוג, חדשנות וטכנולוגיה",
+            title: "ייעול הפעילות והנגשת התוכן",
+            lead: "הפעילות כוללת הטמעת אמצעים טכנולוגיים לייעול העבודה הטכנית והלוגיסטית בבית הכנסת, לצד פרויקטים ייעודיים שמעשירים את חוויית המבקרים וחברי הקהילה.",
+            items: [
+              "פיתוח פלטפורמת סיור קהילתית אינטראקטיבית מבוססת תגי NTAG215.",
+              "הקמת מסך דיגיטלי ייעודי להנצחת נפטרים.",
+              "הדפסת לייזר על עץ לתפילות, ברכות, קדיש, אשכבות ותפילות לחולים.",
+              "הפקת חוברות פסוקים שהקהילה אומרת עם הילדים בכל שבת.",
+              "סיוע בבקשות מימון, תרגום מכתבים ועזרה בהקמת עמותה להעברת כספים.",
+              "קניית רובוט שוטף כדי שבית הכנסת ייראה מכובד בכל יום."
+            ],
+            caption: "פרויקטים דיגיטליים, עיצוב והפקה"
+          },
+          media: {
+            kicker: "05 | מדיה, שיווק ופרסום",
+            title: "תוכן שמספר את הסיפור הקהילתי",
+            lead: "המדיה משמשת כלי מרכזי לחיבור חברי הקהילה לפעילות, להגדלת החשיפה, ולתיעוד העשייה בבית חב\"ד, בבית הספר ובאירועים השונים.",
+            items: [
+              "דברור ופרסום פעילויות בית חב\"ד, בית הספר והאירועים ברשתות החברתיות.",
+              "תכנון, צילום, עריכה והפקת סרטונים שיווקיים וחווייתיים.",
+              "יצירת נראות מקצועית שמחזקת את תחושת השייכות והאמון."
+            ],
+            caption: "צילום, הפקה ונראות קהילתית"
+          },
+          closing: {
+            kicker: "סיכום ומבט לעתיד",
+            title: "עוגן יציב וחם לכל יהודי בנובוסיבירסק",
+            p1: "כלל הפעולות הללו, החל מהאירוח הביתי, דרך החינוך וההוראה ועד לשדרוגים הטכנולוגיים והלוגיסטיים, נעשים מתוך מטרה אחת: להוות עוגן איתן ותמידי לכל עניין בקהילה ולמלא את רצון המשלח לתת לכל יהודי הרגשה של בית חם ולקרב אותו לקב\"ה.",
+            p2: "אנו נחושים להמשיך להשקיע את מלוא המרץ כדי להצעיד את המוסדות קדימה, לפתח פרויקטים חדשים ולהעמיק את השפעת בית חב\"ד על חברי הקהילה בפרט וכל יהודי נובוסיבירסק בכלל, עד ביאת משיח צדקנו בקרוב ממש.",
+            caption: "קהילה עם פנים קדימה"
+          }
+        },
+        footer: "דוח פעילות בית חב\"ד נובוסיבירסק | שניאור וחסי גרינברג",
+        pdf: {
+          generated: "דוח זה הופק מהאתר הרשמי של בית חב\"ד נובוסיבירסק",
+          photoNote: "גלריית תמונות מלאה זמינה בגרסת האתר המקוונת."
+        }
+      },
+      ru: {
+        lang: "ru",
+        dir: "ltr",
+        otherLangLabel: "עברית",
+        langToggleAria: "Переключить на иврит",
+        pdfFilename: "otchet-deyatelnost-habad-novosibirsk.pdf",
+        meta: {
+          title: "Отчёт о деятельности | Хабад-центр Новосибирска",
+          description: "Подробный отчёт о деятельности Хабад-центра Новосибирска и еврейской общины."
+        },
+        brand: {
+          name: "Хабад-центр Новосибирска",
+          subtitle: "Отчёт о деятельности общины"
+        },
+        nav: {
+          label: "Навигация",
+          education: "Образование и молодёжь",
+          adults: "Занятия для взрослых",
+          shabbat: "Шаббат и праздники",
+          technology: "Инновации и технологии",
+          media: "Медиа и PR",
+          future: "Взгляд в будущее"
+        },
+        actions: {
+          download: "Скачать отчёт PDF",
+          downloading: "Подготовка файла..."
+        },
+        hero: {
+          eyebrow: "Представлено Шнеуром и Хаем Гринберг",
+          title: "Отчёт о деятельности Хабад-центра Новосибирска",
+          lead: "Обзор направлений ответственности, проектов и текущей деятельности в общине и Хабад-центре — с целью подарить каждому еврею ощущение тёплого, живого и активного дома.",
+          pills: ["Образование и община", "Шаббат и праздники", "Инновации и операции", "Медиа и связь с общиной"]
+        },
+        intro: {
+          kicker: "Вступление",
+          title: "Деятельность, которая развивает, совершенствует и расширяет общину для новых каналов и аудиторий",
+          p1: "Этот отчёт объединяет широкую деятельность, которую мы ведём в Хабад-центре и еврейской общине. Наша главная цель — обеспечивать полный, постоянный и профессиональный ответ на потребности общины, одновременно развивая и совершенствуя общинную работу.",
+          p2: "Мы стремимся привнести в город молодой и свежий дух, новый импульс в еврейскую жизнь и расширить круг влияния — через новые каналы, создание адаптированного контента и опытов, а также выход к целевым аудиториям, которые ранее не были знакомы с деятельностью Хабад-центра.",
+          p3: "Мы видим в этой работе лишь начало пути и планируем и дальше расширять и увеличивать масштаб деятельности. В этой связи выражаем глубокую благодарность за большую помощь и поддержку, оказанную нам.",
+          summaryTitle: "Основные направления",
+          summaryLead: "Отчёт представляет широкую картину повседневной работы наряду с крупными образовательными, общинными и технологическими проектами.",
+          stats: [
+            "Образование, дети и молодёжь в течение года",
+            "Уроки Торы и культуры для взрослых",
+            "Гостеприимство, праздники и молитвы в синагоге",
+            "Цифровые системы, дизайн и продакшн"
+          ]
+        },
+        sections: {
+          education: {
+            kicker: "01 | Образование, дети и молодёжь",
+            title: "Деятельность в течение года",
+            lead: "В рамках образования проводятся еженедельные занятия для детей по ивриту, традиции и иудаизму, а также образовательные программы и мероприятия вокруг еврейских праздников и ценностей.",
+            items: [
+              "Создание образовательных программ и социальных активностей в школе.",
+              "Совместные ключевые мероприятия для учеников, родителей и общины.",
+              "Руководство детским хором, включая написание, сочинение мелодий и создание еврейских песен.",
+              "Планирование, управление, проведение и привлечение финансирования для детского летнего лагеря.",
+              "Руководство программами EnerJew для молодёжи."
+            ],
+            caption: "Образование, молодёжь и еврейский опыт"
+          },
+          adults: {
+            kicker: "02 | Уроки Торы и культуры",
+            title: "Развитие пространства обучения для взрослых",
+            lead: "Деятельность для взрослых включает регулярные занятия по ивриту, индивидуальное или групповое обучение, а также персонализированное углубление в хасидизм и иудаизм. Параллельно создаётся клуб для носителей иврита с социальными встречами и израильской кухней.",
+            items: [
+              "Еженедельные занятия по ивриту для членов общины.",
+              "Индивидуальное и групповое изучение хасидизма по уровню участников.",
+              "Встречи носителей иврита с тёплой израильской атмосферой.",
+              "Лекции и активности для «сыновей Ноя» в рамках Ночи музеев."
+            ],
+            caption: "Обучение, встречи и связь в общине"
+          },
+          shabbat: {
+            kicker: "03 | Шаббат, праздники и жизненный цикл",
+            title: "Синагога как живой центр общины",
+            lead: "В будние дни, по шаббатам и праздникам оказывается постоянная помощь в организации молитв, чтении Торы, надевании тфилин для приближённых и приёме семей на шаббатные трапезы.",
+            items: [
+              "Полная помощь в молитвах, чтении Торы и деятельности синагоги.",
+              "Праздничные акции: маца на Песах, чтение мегилы на Пурим, Тишрей, Ханука и весь годовой цикл.",
+              "Подготовка и приём шаббатных трапез, включая организацию пространства и социальный контент для молодёжи.",
+              "Укрепление семейных и общинных связей через совместные мероприятия."
+            ],
+            caption: "Молитва, гостеприимство и праздники"
+          },
+          technology: {
+            kicker: "04 | Модернизация, инновации и технологии",
+            title: "Оптимизация деятельности и доступность контента",
+            lead: "Деятельность включает внедрение технологических средств для оптимизации технической и логистической работы в синагоге, а также специальные проекты, обогащающие опыт посетителей и членов общины.",
+            items: [
+              "Разработка интерактивной платформы общинного тура на основе меток NTAG215.",
+              "Установка цифрового экрана для увековечения памяти усопших.",
+              "Лазерная гравировка на дереве для молитв, благословений, кадиша, эл мале рахамим и молитв за больных.",
+              "Создание буклетов со стихами, которые община читает с детьми каждый шаббат.",
+              "Помощь в заявках на финансирование, переводе писем и создании фонда для перевода средств.",
+              "Приобретение робота-уборщика, чтобы синагога выглядела достойно каждый день."
+            ],
+            caption: "Цифровые проекты, дизайн и продакшн"
+          },
+          media: {
+            kicker: "05 | Медиа, маркетинг и PR",
+            title: "Контент, рассказывающий историю общины",
+            lead: "Медиа — ключевой инструмент для вовлечения членов общины в деятельность, расширения охвата и документирования работы в Хабад-центре, школе и на различных мероприятиях.",
+            items: [
+              "Освещение и публикация деятельности Хабад-центра, школы и мероприятий в социальных сетях.",
+              "Планирование, съёмка, монтаж и производство маркетинговых и иммерсивных видео.",
+              "Создание профессионального имиджа, укрепляющего чувство принадлежности и доверия."
+            ],
+            caption: "Съёмка, продакшн и общинный имидж"
+          },
+          closing: {
+            kicker: "Итоги и взгляд в будущее",
+            title: "Надёжный и тёплый оплот для каждого еврея в Новосибирске",
+            p1: "Все эти действия — от домашнего гостеприимства через образование и обучение до технологических и логистических улучшений — совершаются с одной целью: быть прочным и постоянным оплотом для любого вопроса в общине и исполнить волю шлиаха — дать каждому еврею ощущение тёплого дома и приблизить его к Всевышнему.",
+            p2: "Мы полны решимости продолжать вкладывать все силы, чтобы продвигать учреждения вперёд, разрабатывать новые проекты и углублять влияние Хабад-центра на членов общины и на каждого еврея Новосибирска, до скорейшего прихода Мессии.",
+            caption: "Община, смотрящая в будущее"
+          }
+        },
+        footer: "Отчёт о деятельности Хабад-центра Новосибирска | Шнеур и Хай Гринберг",
+        pdf: {
+          generated: "Этот отчёт создан с официального сайта Хабад-центра Новосибирска",
+          photoNote: "Полная фотогалерея доступна в онлайн-версии сайта."
+        }
+      }
+    };
 
-    sliders.forEach((slider, sliderIndex) => {
-      const slides = slider.dataset.slides.split("|").map((src) => src.trim()).filter(Boolean);
-      const captionText = slider.dataset.caption || "";
-      let activeIndex = 0;
+    const listTargets = {
+      "education-items": "sections.education.items",
+      "adults-items": "sections.adults.items",
+      "shabbat-items": "sections.shabbat.items",
+      "technology-items": "sections.technology.items",
+      "media-items": "sections.media.items"
+    };
 
-      slides.forEach((src, index) => {
-        const image = document.createElement("img");
-        image.src = src;
-        image.alt = captionText;
-        image.loading = "eager";
-        image.className = index === 0 ? "active" : "";
-        slider.appendChild(image);
+    let currentLang = localStorage.getItem("chabad-report-lang") || "he";
+    const sliderInstances = [];
+
+    function getNested(obj, path) {
+      return path.split(".").reduce((acc, key) => acc?.[key], obj);
+    }
+
+    function applyLanguage(lang) {
+      const t = i18n[lang];
+      currentLang = lang;
+      localStorage.setItem("chabad-report-lang", lang);
+
+      document.documentElement.lang = t.lang;
+      document.documentElement.dir = t.dir;
+      document.title = t.meta.title;
+      document.querySelector('meta[name="description"]').setAttribute("content", t.meta.description);
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = getNested(t, el.dataset.i18n);
       });
 
-      const caption = document.createElement("div");
-      caption.className = "caption";
-      caption.textContent = captionText;
-      slider.appendChild(caption);
+      document.getElementById("main-nav").setAttribute("aria-label", t.nav.label);
 
-      const dots = document.createElement("div");
-      dots.className = "dots";
-      slides.forEach((_, index) => {
-        const dot = document.createElement("span");
-        dot.className = index === 0 ? "dot active" : "dot";
-        dots.appendChild(dot);
+      const pills = document.getElementById("hero-pills");
+      pills.innerHTML = t.hero.pills.map((text) => `<span class="meta-pill">${text}</span>`).join("");
+
+      const stats = document.getElementById("intro-stats");
+      stats.innerHTML = t.intro.stats.map((text) => `<div class="stat">${text}</div>`).join("");
+
+      Object.entries(listTargets).forEach(([id, path]) => {
+        const items = getNested(t, path);
+        document.getElementById(id).innerHTML = items.map((text) => `<li>${text}</li>`).join("");
       });
-      slider.appendChild(dots);
 
-      const images = slider.querySelectorAll("img");
-      const indicators = slider.querySelectorAll(".dot");
+      document.querySelectorAll(".slider[data-caption-key]").forEach((slider) => {
+        const captionText = getNested(t, slider.dataset.captionKey);
+        const caption = slider.querySelector(".caption");
+        if (caption) caption.textContent = captionText;
+        slider.querySelectorAll("img").forEach((img) => { img.alt = captionText; });
+      });
 
-      setInterval(() => {
-        images[activeIndex].classList.remove("active");
-        indicators[activeIndex].classList.remove("active");
-        activeIndex = (activeIndex + 1) % images.length;
-        images[activeIndex].classList.add("active");
-        indicators[activeIndex].classList.add("active");
-      }, intervalMs + (sliderIndex % 3) * 230);
+      const langToggle = document.getElementById("lang-toggle");
+      langToggle.textContent = t.otherLangLabel;
+      langToggle.setAttribute("aria-label", t.langToggleAria);
+    }
+
+    function initSliders() {
+      const intervalMs = 2600;
+
+      document.querySelectorAll(".slider").forEach((slider, sliderIndex) => {
+        const captionKey = slider.dataset.captionKey;
+        const captionText = getNested(i18n[currentLang], captionKey) || "";
+        const slides = slider.dataset.slides.split("|").map((src) => src.trim()).filter(Boolean);
+        let activeIndex = 0;
+
+        slider.innerHTML = "";
+
+        slides.forEach((src, index) => {
+          const image = document.createElement("img");
+          image.src = src;
+          image.alt = captionText;
+          image.loading = "eager";
+          image.className = index === 0 ? "active" : "";
+          slider.appendChild(image);
+        });
+
+        const caption = document.createElement("div");
+        caption.className = "caption";
+        caption.textContent = captionText;
+        slider.appendChild(caption);
+
+        const dots = document.createElement("div");
+        dots.className = "dots";
+        slides.forEach((_, index) => {
+          const dot = document.createElement("span");
+          dot.className = index === 0 ? "dot active" : "dot";
+          dots.appendChild(dot);
+        });
+        slider.appendChild(dots);
+
+        const images = slider.querySelectorAll("img");
+        const indicators = slider.querySelectorAll(".dot");
+
+        const timer = setInterval(() => {
+          images[activeIndex].classList.remove("active");
+          indicators[activeIndex].classList.remove("active");
+          activeIndex = (activeIndex + 1) % images.length;
+          images[activeIndex].classList.add("active");
+          indicators[activeIndex].classList.add("active");
+        }, intervalMs + (sliderIndex % 3) * 230);
+
+        sliderInstances.push({ slider, timer });
+      });
+    }
+
+    function buildPdfHtml(lang) {
+      const t = i18n[lang];
+      const isRtl = t.dir === "rtl";
+      const align = isRtl ? "right" : "left";
+      const borderSide = isRtl ? "border-right" : "border-left";
+
+      const sectionKeys = ["education", "adults", "shabbat", "technology", "media"];
+      const sectionsHtml = sectionKeys.map((key) => {
+        const s = t.sections[key];
+        const items = s.items.map((item) => `<li style="margin-bottom:6px;">${item}</li>`).join("");
+        return `
+          <section style="margin-bottom:22px; page-break-inside:avoid;">
+            <div style="color:#2f7d73; font-size:11px; font-weight:800; margin-bottom:6px;">${s.kicker}</div>
+            <h2 style="margin:0 0 8px; color:#1e5b8f; font-size:20px;">${s.title}</h2>
+            <p style="margin:0 0 10px; color:#344054;">${s.lead}</p>
+            <ul style="margin:0; padding-${isRtl ? "right" : "left"}:18px; color:#17202a;">${items}</ul>
+          </section>
+        `;
+      }).join("");
+
+      const statsHtml = t.intro.stats.map((stat) => `
+        <div style="${borderSide}:4px solid #b3862d; background:#fff8e9; padding:8px 12px; margin-bottom:8px; font-weight:700;">${stat}</div>
+      `).join("");
+
+      const pillsHtml = t.hero.pills.map((pill) => `
+        <span style="display:inline-block; border:1px solid #d8e0e6; background:#f4f8fb; color:#1e5b8f; border-radius:6px; padding:5px 10px; margin:0 6px 6px 0; font-size:12px; font-weight:700;">${pill}</span>
+      `).join("");
+
+      return `
+        <div style="direction:${t.dir}; text-align:${align}; font-family:Arial,'Segoe UI',sans-serif; color:#17202a; line-height:1.65; padding:8px;">
+          <div style="background:linear-gradient(135deg,#1e5b8f,#2f7d73); color:white; border-radius:10px; padding:24px 26px; margin-bottom:24px;">
+            <div style="font-size:12px; font-weight:800; color:#ffe4a8; margin-bottom:10px;">${t.hero.eyebrow}</div>
+            <h1 style="margin:0 0 10px; font-size:28px; line-height:1.15;">${t.hero.title}</h1>
+            <p style="margin:0 0 14px; color:rgba(255,255,255,.92); font-size:14px;">${t.hero.lead}</p>
+            <div>${pillsHtml}</div>
+          </div>
+
+          <section style="margin-bottom:22px; page-break-inside:avoid;">
+            <div style="color:#2f7d73; font-size:11px; font-weight:800; margin-bottom:6px;">${t.intro.kicker}</div>
+            <h2 style="margin:0 0 10px; color:#1e5b8f; font-size:22px;">${t.intro.title}</h2>
+            <p style="margin:0 0 10px;">${t.intro.p1}</p>
+            <p style="margin:0 0 10px;">${t.intro.p2}</p>
+            <p style="margin:0 0 14px;">${t.intro.p3}</p>
+            <div style="background:#f8fafc; border:1px solid #d8e0e6; border-radius:8px; padding:16px;">
+              <h3 style="margin:0 0 8px; font-size:17px;">${t.intro.summaryTitle}</h3>
+              <p style="margin:0 0 10px; color:#667085; font-size:13px;">${t.intro.summaryLead}</p>
+              ${statsHtml}
+            </div>
+          </section>
+
+          ${sectionsHtml}
+
+          <section style="background:#1e5b8f; color:white; border-radius:10px; padding:20px 22px; margin-bottom:18px; page-break-inside:avoid;">
+            <div style="color:#ffe4a8; font-size:11px; font-weight:800; margin-bottom:6px;">${t.sections.closing.kicker}</div>
+            <h2 style="margin:0 0 10px; color:white; font-size:20px;">${t.sections.closing.title}</h2>
+            <p style="margin:0 0 10px; color:rgba(255,255,255,.92);">${t.sections.closing.p1}</p>
+            <p style="margin:0; color:rgba(255,255,255,.92);">${t.sections.closing.p2}</p>
+          </section>
+
+          <footer style="border-top:1px solid #d8e0e6; padding-top:12px; color:#667085; font-size:12px;">
+            <div style="margin-bottom:4px;">${t.footer}</div>
+            <div>${t.pdf.generated}</div>
+            <div style="margin-top:4px; font-style:italic;">${t.pdf.photoNote}</div>
+          </footer>
+        </div>
+      `;
+    }
+
+    async function downloadReport() {
+      const t = i18n[currentLang];
+      const btn = document.getElementById("download-btn");
+      const label = btn.querySelector("[data-i18n]");
+      const originalText = t.actions.download;
+
+      btn.disabled = true;
+      label.textContent = t.actions.downloading;
+
+      const container = document.createElement("div");
+      container.style.position = "fixed";
+      container.style.left = "-10000px";
+      container.style.top = "0";
+      container.style.width = "794px";
+      container.innerHTML = buildPdfHtml(currentLang);
+      document.body.appendChild(container);
+
+      try {
+        await html2pdf().set({
+          margin: [12, 12, 14, 12],
+          filename: t.pdfFilename,
+          image: { type: "jpeg", quality: 0.95 },
+          html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+        }).from(container.firstElementChild).save();
+      } finally {
+        container.remove();
+        btn.disabled = false;
+        label.textContent = originalText;
+      }
+    }
+
+    document.getElementById("lang-toggle").addEventListener("click", () => {
+      applyLanguage(currentLang === "he" ? "ru" : "he");
     });
+
+    document.getElementById("download-btn").addEventListener("click", downloadReport);
+
+    applyLanguage(currentLang);
+    initSliders();
   </script>
 </body>
 </html>
