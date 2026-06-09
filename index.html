@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>דוח פעילות | בית חב"ד נובוסיבירסק</title>
+  <meta name="description" content="דוח פעילות מפורט של העשייה בבית חב״ד נובוסיבירסק ובקהילה היהודית.">
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #d8e0e6;
+      --paper: #fbfaf7;
+      --panel: #ffffff;
+      --blue: #1e5b8f;
+      --teal: #2f7d73;
+      --gold: #b3862d;
+      --rose: #9f4b57;
+      --shadow: 0 18px 55px rgba(23, 32, 42, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(30, 91, 143, .08), rgba(251, 250, 247, 0) 420px),
+        var(--paper);
+      font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
+      line-height: 1.78;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(216, 224, 230, .82);
+      background: rgba(251, 250, 247, .9);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      font-weight: 800;
+      color: var(--blue);
+      white-space: nowrap;
+    }
+
+    .brand small {
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      font-size: .92rem;
+      color: #344054;
+    }
+
+    nav a {
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    nav a:hover {
+      background: rgba(30, 91, 143, .08);
+      color: var(--blue);
+    }
+
+    .hero {
+      min-height: calc(100vh - 66px);
+      display: grid;
+      align-items: end;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: url("assets/hero-family.jpg") center 38% / cover no-repeat;
+      transform: scale(1.02);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(5, 23, 37, .82), rgba(5, 23, 37, .35) 50%, rgba(5, 23, 37, .12)),
+        linear-gradient(0deg, rgba(5, 23, 37, .72), rgba(5, 23, 37, 0) 42%);
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 88px 0 72px;
+      color: white;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-weight: 800;
+      color: #ffe4a8;
+      letter-spacing: 0;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 3px;
+      border-radius: 3px;
+      background: #ffe4a8;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 880px;
+      font-size: clamp(2.2rem, 7vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 24px 0 0;
+      font-size: clamp(1.08rem, 2vw, 1.45rem);
+      color: rgba(255, 255, 255, .9);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .meta-pill {
+      border: 1px solid rgba(255, 255, 255, .26);
+      background: rgba(255, 255, 255, .12);
+      color: white;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-weight: 700;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 56px 0 82px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(250px, .7fr);
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 38px;
+    }
+
+    .intro-copy,
+    .summary-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro-copy {
+      padding: 30px;
+    }
+
+    .summary-panel {
+      padding: 24px;
+      position: sticky;
+      top: 92px;
+    }
+
+    h2, h3 {
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.55rem, 3vw, 2.45rem);
+      color: var(--blue);
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: clamp(1.28rem, 2vw, 1.85rem);
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      border-right: 4px solid var(--gold);
+      padding: 9px 13px;
+      background: #fff8e9;
+      border-radius: 6px 0 0 6px;
+      font-weight: 800;
+    }
+
+    .report-section {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: 30px;
+      align-items: center;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .report-section:nth-of-type(even) .section-copy {
+      order: 2;
+    }
+
+    .section-copy {
+      min-width: 0;
+    }
+
+    .kicker {
+      display: inline-flex;
+      margin-bottom: 12px;
+      color: var(--teal);
+      font-size: .92rem;
+      font-weight: 900;
+    }
+
+    .section-copy ul {
+      margin: 18px 0 0;
+      padding: 0 22px 0 0;
+    }
+
+    .section-copy li {
+      margin-bottom: 8px;
+    }
+
+    .slider {
+      position: relative;
+      min-height: 430px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #111820;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(23, 32, 42, .15);
+    }
+
+    .slider img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.025);
+      transition: opacity 850ms ease, transform 4200ms ease;
+    }
+
+    .slider img.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .slider::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 34%;
+      background: linear-gradient(0deg, rgba(0, 0, 0, .58), rgba(0, 0, 0, 0));
+      pointer-events: none;
+    }
+
+    .caption {
+      position: absolute;
+      right: 18px;
+      bottom: 16px;
+      z-index: 2;
+      max-width: calc(100% - 36px);
+      color: white;
+      font-weight: 800;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .45);
+    }
+
+    .dots {
+      position: absolute;
+      left: 16px;
+      bottom: 18px;
+      z-index: 3;
+      display: flex;
+      gap: 7px;
+      direction: ltr;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .46);
+      transition: width .3s ease, background .3s ease;
+    }
+
+    .dot.active {
+      width: 26px;
+      border-radius: 10px;
+      background: #ffe4a8;
+    }
+
+    .closing {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .74fr);
+      gap: 28px;
+      align-items: stretch;
+      padding-top: 44px;
+      border-top: 1px solid var(--line);
+    }
+
+    .closing-copy {
+      background: var(--blue);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .closing-copy h2 {
+      color: white;
+    }
+
+    .closing-copy p {
+      color: rgba(255, 255, 255, .9);
+    }
+
+    footer {
+      padding: 26px 16px 42px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 920px) {
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 0;
+        gap: 8px;
+      }
+
+      nav {
+        justify-content: flex-start;
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+      }
+
+      nav a {
+        white-space: nowrap;
+      }
+
+      .intro,
+      .report-section,
+      .closing {
+        grid-template-columns: 1fr;
+      }
+
+      .report-section:nth-of-type(even) .section-copy {
+        order: 0;
+      }
+
+      .summary-panel {
+        position: static;
+      }
+
+      .slider {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        min-height: 720px;
+      }
+
+      .hero-inner {
+        padding-bottom: 42px;
+      }
+
+      .intro-copy,
+      .summary-panel,
+      .closing-copy {
+        padding: 22px;
+      }
+
+      .report-section {
+        padding: 32px 0;
+      }
+
+      .slider {
+        min-height: 315px;
+      }
+
+      .caption {
+        font-size: .95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        בית חב"ד נובוסיבירסק
+        <small>דוח פעילות קהילתי</small>
+      </a>
+      <nav aria-label="ניווט">
+        <a href="#education">חינוך ונוער</a>
+        <a href="#adults">שיעורים למבוגרים</a>
+        <a href="#shabbat">שבתות וחגים</a>
+        <a href="#technology">חדשנות וטכנולוגיה</a>
+        <a href="#media">מדיה ופרסום</a>
+        <a href="#future">מבט לעתיד</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">מוגש על ידי שניאור וחסי גרינברג</div>
+      <h1>דוח פעילות בית חב"ד נובוסיבירסק</h1>
+      <p class="lead">סיכום תחומי האחריות, הפרויקטים והפעילות השוטפת בקהילה ובבית חב"ד, מתוך מטרה להעניק לכל יהודי תחושה של בית חם, חי ופעיל.</p>
+      <div class="hero-meta">
+        <span class="meta-pill">חינוך וקהילה</span>
+        <span class="meta-pill">שבתות וחגים</span>
+        <span class="meta-pill">חדשנות ותפעול</span>
+        <span class="meta-pill">מדיה וחיבור קהילתי</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="intro" aria-labelledby="intro-title">
+      <div class="intro-copy">
+        <span class="kicker">פתח דבר</span>
+        <h2 id="intro-title">עשייה שמורידה עומס, מוסיפה חיות ומרחיבה את מעגל ההשפעה</h2>
+        <p>דוח זה מרכז את הפעילות הענפה המבוצעת על ידינו בבית חב"ד ובקהילה היהודית. המטרה המרכזית העומדת לנגד עינינו היא מתן מענה מלא, שוטף ומקצועי לכל צורכי הקהילה, וכן גיבוי והורדת עומס הפעילות הטכני, הלוגיסטי והארגוני מכתפיו של השליח הראשי הרב זקלס.</p>
+        <p>כך מתאפשר לרב להתמקד בהנהגת הקהילה ובנושאים המרכזיים, ובמקביל להביא לעיר רוח צעירה וחדשה, תנופה נוספת בחיי היהדות, והמשך פיתוח של מוסדות ופעילויות לאורך השנה.</p>
+        <p>אנו רואים בעשייה זו רק את תחילת הדרך, ומתכננים להמשיך להרחיב ולהגדיל את היקף הפעילות הלאה והלאה. בהזדמנות זו אנו מבקשים להביע תודה עמוקה על העזרה הגדולה והתמיכה שניתנת לנו.</p>
+      </div>
+      <aside class="summary-panel">
+        <h3>עיקרי הפעילות</h3>
+        <p class="muted">הדוח מציג תמונה רחבה של עשייה יומיומית לצד פרויקטים גדולים, חינוכיים, קהילתיים וטכנולוגיים.</p>
+        <div class="stats">
+          <div class="stat">חינוך, ילדים ונוער סביב מעגל השנה</div>
+          <div class="stat">שיעורי תורה ותרבות למבוגרים</div>
+          <div class="stat">אירוח, חגים ותפילות בבית הכנסת</div>
+          <div class="stat">מערכות דיגיטליות, עיצוב והפקה</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="report-section" id="education">
+      <div class="section-copy">
+        <span class="kicker">01 | חינוך, ילדים ונוער</span>
+        <h2>פעילות סביב מעגל השנה</h2>
+        <p>במסגרת החינוך מתקיימת הוראה שבועית קבועה לילדים בנושאי עברית, מסורת ויהדות, לצד תוכניות חינוכיות ואירועים סביב חגי ישראל וערכי היהדות.</p>
+        <ul>
+          <li>הפקת תוכניות חינוכיות ופעילויות חברתיות בבית הספר.</li>
+          <li>אירועי שיא משותפים לילדי בית הספר, ההורים והקהילה.</li>
+          <li>ניהול מקהלת הילדים, כולל כתיבה, הלחנה ויצירת שירים יהודיים.</li>
+          <li>תכנון, ניהול, הפעלה וגיוס מימון למחנה הקיץ לילדים.</li>
+          <li>הובלת תוכניות EnerJew לבני נוער.</li>
+        </ul>
+      </div>
+      <div class="slider" data-caption="חינוך, נוער וחוויות יהודיות" data-slides="assets/education-enerjew.jpg|assets/education-class.jpg|assets/education-hebrew.jpg|assets/education-child.jpg|assets/education-workshop.jpg"></div>
+    </section>
+
+    <section class="report-section" id="adults">
+      <div class="section-copy">
+        <span class="kicker">02 | שיעורי תורה ותרבות</span>
+        <h2>פיתוח מרחב לימוד למבוגרים</h2>
+        <p>הפעילות למבוגרים כוללת שיעורים קבועים בעברית, לימוד אישי או קבוצתי, והעמקה מותאמת אישית בחסידות וביהדות. לצד הלימוד, נבנה מועדון לדוברי עברית המשלב מפגשים חברתיים ואוכל ישראלי.</p>
+        <ul>
+          <li>שיעורים שבועיים בעברית לחברי הקהילה.</li>
+          <li>לימוד אישי וקבוצתי בחסידות לפי רמת המשתתפים.</li>
+          <li>מפגשי דוברי עברית עם אווירה ישראלית מחברת.</li>
+          <li>הרצאות ופעילות לבני נח במסגרת ליל סיור המוזיאונים.</li>
+        </ul>
+      </div>
+      <div class="slider" data-caption="לימוד, מפגש וחיבור בין חברי הקהילה" data-slides="assets/adults-roundtable.jpg|assets/adults-gathering.jpg|assets/adults-meal.jpg|assets/adults-lecture.jpg|assets/adults-community.jpg"></div>
+    </section>
+
+    <section class="report-section" id="shabbat">
+      <div class="section-copy">
+        <span class="kicker">03 | שבתות, חגים ומעגל החיים</span>
+        <h2>בית הכנסת כמרכז חי של הקהילה</h2>
+        <p>במהלך ימות החול, השבתות והחגים ניתנת עזרה שוטפת בניהול התפילות, קריאת התורה, הנחת תפילין למקורבים, ואירוח משפחות לסעודות שבת.</p>
+        <ul>
+          <li>סיוע מלא בתפילות, קריאת התורה ופעילות בית הכנסת.</li>
+          <li>מבצעי חגים: מצות בפסח, קריאת מגילה בפורים, תשרי, חנוכה וכל מעגל השנה.</li>
+          <li>הכנות ואירוח סעודות שבת, כולל סידור פיזי והכנסת תוכן חברתי לצעירים.</li>
+          <li>חיזוק הקשר המשפחתי והקהילתי דרך אירועים משולבים.</li>
+        </ul>
+      </div>
+      <div class="slider" data-caption="תפילה, אירוח וחגים בקהילה" data-slides="assets/shabbat-tefillin.jpg|assets/shabbat-prayer.jpg|assets/shabbat-hospitality.jpg|assets/shabbat-event.jpg|assets/holidays-matzah.jpg"></div>
+    </section>
+
+    <section class="report-section" id="technology">
+      <div class="section-copy">
+        <span class="kicker">04 | שדרוג, חדשנות וטכנולוגיה</span>
+        <h2>ייעול הפעילות והנגשת התוכן</h2>
+        <p>הפעילות כוללת הטמעת אמצעים טכנולוגיים לייעול העבודה הטכנית והלוגיסטית בבית הכנסת, לצד פרויקטים ייעודיים שמעשירים את חוויית המבקרים וחברי הקהילה.</p>
+        <ul>
+          <li>פיתוח פלטפורמת סיור קהילתית אינטראקטיבית מבוססת תגי NTAG215.</li>
+          <li>הקמת מסך דיגיטלי ייעודי להנצחת נפטרים.</li>
+          <li>הדפסת לייזר על עץ לתפילות, ברכות, קדיש, אשכבות ותפילות לחולים.</li>
+          <li>הפקת חוברות פסוקים שהקהילה אומרת עם הילדים בכל שבת.</li>
+          <li>סיוע בבקשות מימון, תרגום מכתבים ועזרה בהקמת עמותה להעברת כספים.</li>
+          <li>קניית רובוט שוטף כדי שבית הכנסת ייראה מכובד בכל יום.</li>
+        </ul>
+      </div>
+      <div class="slider" data-caption="פרויקטים דיגיטליים, עיצוב והפקה" data-slides="assets/tech-memory.jpg|assets/tech-plaque.jpg|assets/tech-screen.jpg|assets/tech-yizkor.jpg|assets/tech-laser.jpg|assets/tech-prayer.jpg|assets/tech-robot.jpg|assets/tech-booklets.jpg"></div>
+    </section>
+
+    <section class="report-section" id="media">
+      <div class="section-copy">
+        <span class="kicker">05 | מדיה, שיווק ופרסום</span>
+        <h2>תוכן שמספר את הסיפור הקהילתי</h2>
+        <p>המדיה משמשת כלי מרכזי לחיבור חברי הקהילה לפעילות, להגדלת החשיפה, ולתיעוד העשייה בבית חב"ד, בבית הספר ובאירועים השונים.</p>
+        <ul>
+          <li>דברור ופרסום פעילויות בית חב"ד, בית הספר והאירועים ברשתות החברתיות.</li>
+          <li>תכנון, צילום, עריכה והפקת סרטונים שיווקיים וחווייתיים.</li>
+          <li>יצירת נראות מקצועית שמחזקת את תחושת השייכות והאמון.</li>
+        </ul>
+      </div>
+      <div class="slider" data-caption="צילום, הפקה ונראות קהילתית" data-slides="assets/media-video.jpg|assets/media-filming.jpg|assets/media-home.jpg|assets/media-post.jpg"></div>
+    </section>
+
+    <section class="closing" id="future">
+      <div class="closing-copy">
+        <span class="kicker" style="color:#ffe4a8">סיכום ומבט לעתיד</span>
+        <h2>עוגן יציב וחם לכל יהודי בנובוסיבירסק</h2>
+        <p>כלל הפעולות הללו, החל מהאירוח הביתי, דרך החינוך וההוראה ועד לשדרוגים הטכנולוגיים והלוגיסטיים, נעשים מתוך מטרה אחת: להוות עוגן איתן ותמידי לכל עניין בקהילה ולמלא את רצון המשלח לתת לכל יהודי הרגשה של בית חם ולקרב אותו לקב"ה.</p>
+        <p>אנו נחושים להמשיך להשקיע את מלוא המרץ כדי להצעיד את המוסדות קדימה, לפתח פרויקטים חדשים ולהעמיק את השפעת בית חב"ד על חברי הקהילה בפרט וכל יהודי נובוסיבירסק בכלל, עד ביאת משיח צדקנו בקרוב ממש.</p>
+      </div>
+      <div class="slider" data-caption="קהילה עם פנים קדימה" data-slides="assets/future-community.jpg|assets/future-group.jpg|assets/hero-family.jpg"></div>
+    </section>
+  </main>
+
+  <footer>
+    דוח פעילות בית חב"ד נובוסיבירסק | שניאור וחסי גרינברג
+  </footer>
+
+  <script>
+    const sliders = document.querySelectorAll(".slider");
+    const intervalMs = 2600;
+
+    sliders.forEach((slider, sliderIndex) => {
+      const slides = slider.dataset.slides.split("|").map((src) => src.trim()).filter(Boolean);
+      const captionText = slider.dataset.caption || "";
+      let activeIndex = 0;
+
+      slides.forEach((src, index) => {
+        const image = document.createElement("img");
+        image.src = src;
+        image.alt = captionText;
+        image.loading = "eager";
+        image.className = index === 0 ? "active" : "";
+        slider.appendChild(image);
+      });
+
+      const caption = document.createElement("div");
+      caption.className = "caption";
+      caption.textContent = captionText;
+      slider.appendChild(caption);
+
+      const dots = document.createElement("div");
+      dots.className = "dots";
+      slides.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.className = index === 0 ? "dot active" : "dot";
+        dots.appendChild(dot);
+      });
+      slider.appendChild(dots);
+
+      const images = slider.querySelectorAll("img");
+      const indicators = slider.querySelectorAll(".dot");
+
+      setInterval(() => {
+        images[activeIndex].classList.remove("active");
+        indicators[activeIndex].classList.remove("active");
+        activeIndex = (activeIndex + 1) % images.length;
+        images[activeIndex].classList.add("active");
+        indicators[activeIndex].classList.add("active");
+      }, intervalMs + (sliderIndex % 3) * 230);
+    });
+  </script>
+</body>
+</html>
