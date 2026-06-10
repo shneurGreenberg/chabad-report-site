@@ -511,7 +511,7 @@
         <div class="topbar-actions">
           <button type="button" class="action-btn" id="lang-toggle" aria-label="שינוי שפה">Русский</button>
           <button type="button" class="action-btn action-btn-primary" id="download-btn">
-            <span data-i18n="actions.download">הורדת דוח PDF</span>
+            <span data-i18n="actions.download">הורדת דוח Word</span>
           </button>
         </div>
       </div>
@@ -606,7 +606,6 @@
 
   <footer data-i18n="footer">דוח פעילות בית חב"ד נובוסיבירסק | שניאור וחסי גרינברג</footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     const i18n = {
       he: {
@@ -614,7 +613,7 @@
         dir: "rtl",
         otherLangLabel: "Русский",
         langToggleAria: "שינוי שפה לרוסית",
-        pdfFilename: "doh-peilut-chabad-novosibirsk.pdf",
+        docFilename: "doh-peilut-chabad-novosibirsk.docx",
         meta: {
           title: "דוח פעילות | בית חב\"ד נובוסיבירסק",
           description: "דוח פעילות מפורט של העשייה בבית חב״ד נובוסיבירסק ובקהילה היהודית."
@@ -633,7 +632,7 @@
           future: "מבט לעתיד"
         },
         actions: {
-          download: "הורדת דוח PDF",
+          download: "הורדת דוח Word",
           downloading: "מכין קובץ..."
         },
         hero: {
@@ -729,9 +728,8 @@
           }
         },
         footer: "דוח פעילות בית חב\"ד נובוסיבירסק | שניאור וחסי גרינברג",
-        pdf: {
-          generated: "דוח זה הופק מהאתר הרשמי של בית חב\"ד נובוסיבירסק",
-          photoNote: "גלריית תמונות מלאה זמינה בגרסת האתר המקוונת."
+        doc: {
+          generated: "דוח זה הופק מהאתר הרשמי של בית חב\"ד נובוסיבירסק"
         }
       },
       ru: {
@@ -739,7 +737,7 @@
         dir: "ltr",
         otherLangLabel: "עברית",
         langToggleAria: "Переключить на иврит",
-        pdfFilename: "otchet-deyatelnost-habad-novosibirsk.pdf",
+        docFilename: "otchet-deyatelnost-habad-novosibirsk.docx",
         meta: {
           title: "Отчёт о деятельности | Хабад-центр Новосибирска",
           description: "Подробный отчёт о деятельности Хабад-центра Новосибирска и еврейской общины."
@@ -758,7 +756,7 @@
           future: "Взгляд в будущее"
         },
         actions: {
-          download: "Скачать отчёт PDF",
+          download: "Скачать отчёт Word",
           downloading: "Подготовка файла..."
         },
         hero: {
@@ -854,9 +852,8 @@
           }
         },
         footer: "Отчёт о деятельности Хабад-центра Новосибирска | Шнеур и Хаси Гринберг",
-        pdf: {
-          generated: "Этот отчёт создан с официального сайта Хабад-центра Новосибирска",
-          photoNote: "Полная фотогалерея доступна в онлайн-версии сайта."
+        doc: {
+          generated: "Этот отчёт создан с официального сайта Хабад-центра Новосибирска"
         }
       }
     };
@@ -964,72 +961,274 @@
       });
     }
 
-    function buildPdfHtml(lang) {
+    const sectionImageMap = {};
+    const HERO_IMAGE = "assets/hero-family.jpg";
+    const SECTION_ORDER = ["education", "adults", "shabbat", "technology", "media", "closing"];
+    let docxModulePromise = null;
+
+    function collectSectionImages() {
+      document.querySelectorAll(".slider[data-slides]").forEach((slider) => {
+        const key = slider.dataset.captionKey?.split(".")[1];
+        if (!key) return;
+        sectionImageMap[key] = slider.dataset.slides.split("|").map((src) => src.trim()).filter(Boolean);
+      });
+    }
+
+    function loadDocxModule() {
+      if (!docxModulePromise) {
+        docxModulePromise = import("https://cdn.jsdelivr.net/npm/docx@8.5.0/+esm");
+      }
+      return docxModulePromise;
+    }
+
+    function imageTypeFromPath(path) {
+      return path.toLowerCase().endsWith(".png") ? "png" : "jpg";
+    }
+
+    async function fetchImageBuffer(url) {
+      const absoluteUrl = new URL(url, window.location.href).href;
+      const response = await fetch(absoluteUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to load image: ${url}`);
+      }
+      return response.arrayBuffer();
+    }
+
+    async function getImageDimensions(arrayBuffer) {
+      return new Promise((resolve, reject) => {
+        const blob = new Blob([arrayBuffer]);
+        const objectUrl = URL.createObjectURL(blob);
+        const image = new Image();
+        image.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve({ width: image.naturalWidth, height: image.naturalHeight });
+        };
+        image.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error("Could not read image dimensions"));
+        };
+        image.src = objectUrl;
+      });
+    }
+
+    function scaleImageDimensions(width, height, maxWidth = 520) {
+      if (width <= maxWidth) {
+        return { width, height };
+      }
+      const scale = maxWidth / width;
+      return {
+        width: maxWidth,
+        height: Math.round(height * scale)
+      };
+    }
+
+    function createTextParagraph(docx, text, isRtl, options = {}) {
+      const { Paragraph, TextRun } = docx;
+      return new Paragraph({
+        bidirectional: isRtl,
+        spacing: {
+          before: options.before ?? 0,
+          after: options.after ?? 140
+        },
+        children: [
+          new TextRun({
+            text,
+            rightToLeft: isRtl,
+            bold: options.bold ?? false,
+            italics: options.italics ?? false,
+            size: options.size ?? 24,
+            color: options.color ?? "17202A",
+            font: "Arial"
+          })
+        ]
+      });
+    }
+
+    function createKickerParagraph(docx, text, isRtl) {
+      return createTextParagraph(docx, text, isRtl, {
+        before: 220,
+        after: 80,
+        bold: true,
+        size: 20,
+        color: "2F7D73"
+      });
+    }
+
+    function createHeadingParagraph(docx, text, isRtl, level = 1) {
+      const sizes = { 1: 52, 2: 40, 3: 32 };
+      return createTextParagraph(docx, text, isRtl, {
+        before: level === 1 ? 120 : 220,
+        after: 120,
+        bold: true,
+        size: sizes[level] || 32,
+        color: "1E5B8F"
+      });
+    }
+
+    function createBulletParagraph(docx, text, isRtl) {
+      const { Paragraph, TextRun } = docx;
+      return new Paragraph({
+        bidirectional: isRtl,
+        numbering: { reference: "report-bullets", level: 0 },
+        spacing: { after: 80 },
+        children: [
+          new TextRun({
+            text,
+            rightToLeft: isRtl,
+            size: 24,
+            font: "Arial"
+          })
+        ]
+      });
+    }
+
+    async function createImageParagraph(docx, src, isRtl) {
+      const { Paragraph, ImageRun, AlignmentType } = docx;
+      const data = await fetchImageBuffer(src);
+      const dimensions = await getImageDimensions(data);
+      const scaled = scaleImageDimensions(dimensions.width, dimensions.height);
+
+      return new Paragraph({
+        bidirectional: isRtl,
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 160, after: 160 },
+        children: [
+          new ImageRun({
+            type: imageTypeFromPath(src),
+            data,
+            transformation: {
+              width: scaled.width,
+              height: scaled.height
+            }
+          })
+        ]
+      });
+    }
+
+    async function appendSectionImages(docx, children, images, isRtl) {
+      for (const src of images) {
+        try {
+          children.push(await createImageParagraph(docx, src, isRtl));
+        } catch (error) {
+          console.warn("Skipped image in Word export:", src, error);
+        }
+      }
+    }
+
+    async function buildWordDocument(lang) {
+      const docx = await loadDocxModule();
+      const {
+        Document,
+        Packer,
+        Paragraph,
+        TextRun,
+        AlignmentType,
+        LevelFormat
+      } = docx;
+
       const t = i18n[lang];
       const isRtl = t.dir === "rtl";
-      const align = isRtl ? "right" : "left";
-      const borderSide = isRtl ? "border-right" : "border-left";
+      const children = [];
 
-      const sectionKeys = ["education", "adults", "shabbat", "technology", "media"];
-      const sectionsHtml = sectionKeys.map((key) => {
-        const s = t.sections[key];
-        const items = s.items.map((item) => `<li style="margin-bottom:6px;">${item}</li>`).join("");
-        return `
-          <section style="margin-bottom:22px; page-break-inside:avoid;">
-            <div style="color:#2f7d73; font-size:11px; font-weight:800; margin-bottom:6px;">${s.kicker}</div>
-            <h2 style="margin:0 0 8px; color:#1e5b8f; font-size:20px;">${s.title}</h2>
-            <p style="margin:0 0 10px; color:#344054;">${s.lead}</p>
-            <ul style="margin:0; padding-${isRtl ? "right" : "left"}:18px; color:#17202a;">${items}</ul>
-          </section>
-        `;
-      }).join("");
+      try {
+        children.push(await createImageParagraph(docx, HERO_IMAGE, isRtl));
+      } catch (error) {
+        console.warn("Skipped hero image in Word export:", error);
+      }
 
-      const statsHtml = t.intro.stats.map((stat) => `
-        <div style="${borderSide}:4px solid #b3862d; background:#fff8e9; padding:8px 12px; margin-bottom:8px; font-weight:700;">${stat}</div>
-      `).join("");
+      children.push(createKickerParagraph(docx, t.hero.eyebrow, isRtl));
+      children.push(createHeadingParagraph(docx, t.hero.title, isRtl, 1));
+      children.push(createTextParagraph(docx, t.hero.lead, isRtl, { size: 26 }));
+      children.push(createTextParagraph(docx, t.hero.pills.join("  •  "), isRtl, {
+        bold: true,
+        color: "1E5B8F",
+        after: 220
+      }));
 
-      const pillsHtml = t.hero.pills.map((pill) => `
-        <span style="display:inline-block; border:1px solid #d8e0e6; background:#f4f8fb; color:#1e5b8f; border-radius:6px; padding:5px 10px; margin:0 6px 6px 0; font-size:12px; font-weight:700;">${pill}</span>
-      `).join("");
+      children.push(createKickerParagraph(docx, t.intro.kicker, isRtl));
+      children.push(createHeadingParagraph(docx, t.intro.title, isRtl, 2));
+      children.push(createTextParagraph(docx, t.intro.p1, isRtl));
+      children.push(createTextParagraph(docx, t.intro.p2, isRtl));
+      children.push(createTextParagraph(docx, t.intro.p3, isRtl));
+      children.push(createHeadingParagraph(docx, t.intro.summaryTitle, isRtl, 3));
+      children.push(createTextParagraph(docx, t.intro.summaryLead, isRtl, { color: "667085" }));
+      t.intro.stats.forEach((stat) => {
+        children.push(createTextParagraph(docx, stat, isRtl, { bold: true, color: "8A5A12" }));
+      });
 
-      return `
-        <div style="direction:${t.dir}; text-align:${align}; font-family:Arial,'Segoe UI',sans-serif; color:#17202a; line-height:1.65; padding:8px;">
-          <div style="background:linear-gradient(135deg,#1e5b8f,#2f7d73); color:white; border-radius:10px; padding:24px 26px; margin-bottom:24px;">
-            <div style="font-size:12px; font-weight:800; color:#ffe4a8; margin-bottom:10px;">${t.hero.eyebrow}</div>
-            <h1 style="margin:0 0 10px; font-size:28px; line-height:1.15;">${t.hero.title}</h1>
-            <p style="margin:0 0 14px; color:rgba(255,255,255,.92); font-size:14px;">${t.hero.lead}</p>
-            <div>${pillsHtml}</div>
-          </div>
+      for (const key of SECTION_ORDER) {
+        const section = t.sections[key];
+        children.push(createKickerParagraph(docx, section.kicker, isRtl));
+        children.push(createHeadingParagraph(docx, section.title, isRtl, 2));
+        children.push(createTextParagraph(docx, section.lead, isRtl));
 
-          <section style="margin-bottom:22px; page-break-inside:avoid;">
-            <div style="color:#2f7d73; font-size:11px; font-weight:800; margin-bottom:6px;">${t.intro.kicker}</div>
-            <h2 style="margin:0 0 10px; color:#1e5b8f; font-size:22px;">${t.intro.title}</h2>
-            <p style="margin:0 0 10px;">${t.intro.p1}</p>
-            <p style="margin:0 0 10px;">${t.intro.p2}</p>
-            <p style="margin:0 0 14px;">${t.intro.p3}</p>
-            <div style="background:#f8fafc; border:1px solid #d8e0e6; border-radius:8px; padding:16px;">
-              <h3 style="margin:0 0 8px; font-size:17px;">${t.intro.summaryTitle}</h3>
-              <p style="margin:0 0 10px; color:#667085; font-size:13px;">${t.intro.summaryLead}</p>
-              ${statsHtml}
-            </div>
-          </section>
+        if (section.items) {
+          section.items.forEach((item) => {
+            children.push(createBulletParagraph(docx, item, isRtl));
+          });
+        } else {
+          children.push(createTextParagraph(docx, section.p1, isRtl));
+          children.push(createTextParagraph(docx, section.p2, isRtl));
+        }
 
-          ${sectionsHtml}
+        await appendSectionImages(docx, children, sectionImageMap[key] || [], isRtl);
+      }
 
-          <section style="background:#1e5b8f; color:white; border-radius:10px; padding:20px 22px; margin-bottom:18px; page-break-inside:avoid;">
-            <div style="color:#ffe4a8; font-size:11px; font-weight:800; margin-bottom:6px;">${t.sections.closing.kicker}</div>
-            <h2 style="margin:0 0 10px; color:white; font-size:20px;">${t.sections.closing.title}</h2>
-            <p style="margin:0 0 10px; color:rgba(255,255,255,.92);">${t.sections.closing.p1}</p>
-            <p style="margin:0; color:rgba(255,255,255,.92);">${t.sections.closing.p2}</p>
-          </section>
+      children.push(createTextParagraph(docx, t.footer, isRtl, {
+        before: 280,
+        bold: true,
+        color: "667085"
+      }));
+      children.push(createTextParagraph(docx, t.doc.generated, isRtl, {
+        italics: true,
+        color: "667085",
+        size: 20
+      }));
 
-          <footer style="border-top:1px solid #d8e0e6; padding-top:12px; color:#667085; font-size:12px;">
-            <div style="margin-bottom:4px;">${t.footer}</div>
-            <div>${t.pdf.generated}</div>
-            <div style="margin-top:4px; font-style:italic;">${t.pdf.photoNote}</div>
-          </footer>
-        </div>
-      `;
+      const document = new Document({
+        numbering: {
+          config: [{
+            reference: "report-bullets",
+            levels: [{
+              level: 0,
+              format: LevelFormat.BULLET,
+              text: "•",
+              alignment: isRtl ? AlignmentType.RIGHT : AlignmentType.LEFT,
+              style: {
+                paragraph: {
+                  indent: isRtl
+                    ? { right: 360, hanging: 260 }
+                    : { left: 360, hanging: 260 }
+                }
+              }
+            }]
+          }]
+        },
+        sections: [{
+          properties: {
+            page: {
+              margin: {
+                top: 900,
+                right: 900,
+                bottom: 900,
+                left: 900
+              }
+            }
+          },
+          children
+        }]
+      });
+
+      return Packer.toBlob(document);
+    }
+
+    function triggerDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
     }
 
     async function downloadReport() {
@@ -1041,25 +1240,15 @@
       btn.disabled = true;
       label.textContent = t.actions.downloading;
 
-      const container = document.createElement("div");
-      container.style.position = "fixed";
-      container.style.left = "-10000px";
-      container.style.top = "0";
-      container.style.width = "794px";
-      container.innerHTML = buildPdfHtml(currentLang);
-      document.body.appendChild(container);
-
       try {
-        await html2pdf().set({
-          margin: [12, 12, 14, 12],
-          filename: t.pdfFilename,
-          image: { type: "jpeg", quality: 0.95 },
-          html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-          pagebreak: { mode: ["avoid-all", "css", "legacy"] }
-        }).from(container.firstElementChild).save();
+        const blob = await buildWordDocument(currentLang);
+        triggerDownload(blob, t.docFilename);
+      } catch (error) {
+        console.error("Word export failed:", error);
+        alert(currentLang === "he"
+          ? "לא הצלחנו להכין את קובץ ה-Word. נסה שוב בעוד רגע."
+          : "Не удалось подготовить файл Word. Попробуйте ещё раз.");
       } finally {
-        container.remove();
         btn.disabled = false;
         label.textContent = originalText;
       }
@@ -1071,6 +1260,7 @@
 
     document.getElementById("download-btn").addEventListener("click", downloadReport);
 
+    collectSectionImages();
     applyLanguage(currentLang);
     initSliders();
   </script>
